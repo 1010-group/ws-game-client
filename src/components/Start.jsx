@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
-const Start = ({ setPlayerInfo }) => {
-  const [nickName, setNickName] = useState("");
-  const [color, setColor] = useState("#ff0000");
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../redux/playerSlice';
+
+const Start = () => {
+  const [nickName, setNickName] = useState('');
+  const [color, setColor] = useState('#ff0000');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedNickName = localStorage.getItem("nickname");
-    const savedColor = localStorage.getItem("color") || "#ff0000";
+    const savedNickName = localStorage.getItem('nickname');
+    const savedColor = localStorage.getItem('color') || '#ff0000';
 
     if (savedNickName) {
-      setNickName(savedNickName);
-      setColor(savedColor);
-      setPlayerInfo({ name: savedNickName, color: savedColor });
-      navigate("/game");
+      dispatch(login({ name: savedNickName, color: savedColor }));
+      navigate('/game');
     }
-  }, [navigate, setPlayerInfo]); // Добавляем зависимости
+  }, [dispatch, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!nickName.trim()) return;
 
-    localStorage.setItem("nickname", nickName);
-    localStorage.setItem("color", color);
-    setPlayerInfo({ name: nickName, color });
-    navigate("/game");
+    localStorage.setItem('nickname', nickName);
+    localStorage.setItem('color', color);
+    dispatch(setPlayer({ name: nickName, color }));
+    navigate('/game');
   };
 
   return (
