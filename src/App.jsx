@@ -1,18 +1,11 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Start from './components/Start';
-import Game from './components/Game';
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Start />,
-  },
-  {
-    path: '/game',
-    element: <Game />,
-  },
-]);
+const App = () => (
+  <div>
+    {/* Shared layout, e.g., navbar */}
+    <Outlet /> {/* Renders child routes */}
+  </div>
+);
 
-const App = () => <RouterProvider router={router} />;
 export default App;
